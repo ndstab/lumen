@@ -1,0 +1,20 @@
+node_modules/
+.next/
+out/
+build/
+
+# Local SQLite database. Recreate it with `npm run seed`.
+data/
+
+# Generated lesson videos. Recreate them with `npm run media`.
+public/media/*.mp4
+
+# Brainstorming scratch files from the design phase.
+.superpowers/
+
+.DS_Store
+*.pem
+.env
+.env.local
+next-env.d.ts
+tsconfig.tsbuildinfo
