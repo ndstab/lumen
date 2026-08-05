@@ -758,10 +758,10 @@ figure.figure figcaption b { color: var(--accent-2-ink); font-weight: 700; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
   gap: var(--space-4);
-  align-items: end;
+  align-items: flex-end;
 }
 .filters-search { grid-column: span 2; }
-.filters-actions { display: flex; gap: var(--space-3); align-items: end; }
+.filters-actions { display: flex; gap: var(--space-3); align-items: flex-end; }
 
 @media (max-width: 620px) {
   .filters-search { grid-column: span 1; }
