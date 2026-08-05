@@ -146,8 +146,8 @@ Three more things worth trying:
 - **Narrow the window to phone width.** No horizontal scroll, and no clickable
   label wraps to two lines.
 
-If you would rather watch than run it, there is a silent 80 second walkthrough of
-the running application at [`docs/demo.mp4`](docs/demo.mp4).
+If you would rather watch than run it, there is a narrated 90 second walkthrough
+of the running application at [`docs/demo.mp4`](docs/demo.mp4).
 
 ---
 
@@ -306,7 +306,7 @@ src/
     analytics.ts        the educator queries
 docs/
   design.md             the design specification
-  demo.mp4              walkthrough of the running app
+  demo.mp4              narrated walkthrough of the running app
   presentation.pptx     project presentation
   screens/              screenshots used in this README
 ```
