@@ -41,11 +41,19 @@ db.exec(fs.readFileSync(schemaPath, "utf8"));
 const DEMO_PASSWORD = "lumen1234";
 const hash = bcrypt.hashSync(DEMO_PASSWORD, 10);
 
+// A class of ten, so the analytics have enough answers per question to mean
+// something, plus one educator.
 const accounts = [
   ["Aarav Sharma", "aarav@lumen.school", "learner", 9],
   ["Diya Nair", "diya@lumen.school", "learner", 8],
   ["Kabir Rao", "kabir@lumen.school", "learner", 9],
   ["Meera Iyer", "meera@lumen.school", "learner", 8],
+  ["Rohan Das", "rohan@lumen.school", "learner", 9],
+  ["Ananya Bose", "ananya@lumen.school", "learner", 8],
+  ["Vihaan Menon", "vihaan@lumen.school", "learner", 9],
+  ["Ishita Kulkarni", "ishita@lumen.school", "learner", 8],
+  ["Arjun Pillai", "arjun@lumen.school", "learner", 9],
+  ["Sara Qureshi", "sara@lumen.school", "learner", 8],
   ["Ms Fernandes", "teacher@lumen.school", "educator", null],
 ];
 

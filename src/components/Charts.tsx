@@ -128,7 +128,7 @@ export function DifficultyChart({ items }: { items: ItemDifficulty[] }) {
               {item.percent}%
             </text>
             <text className="lbl" x={pad.left + w + 10} y={y + 38}>
-              {item.answers} answers
+              {item.answers} {item.answers === 1 ? "answer" : "answers"}
             </text>
           </g>
         );

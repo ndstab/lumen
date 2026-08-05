@@ -6,11 +6,15 @@ build/
 # Local SQLite database. Recreate it with `npm run seed`.
 data/
 
-# Generated lesson videos. Recreate them with `npm run media`.
-public/media/*.mp4
+# The generated lesson videos are committed (5.5 MB total) so the repository
+# works on clone without Python, Pillow or ffmpeg. Rebuild them with
+# `npm run media` after editing lesson content.
 
 # Brainstorming scratch files from the design phase.
 .superpowers/
+
+# Temporary Chrome profiles from scripts/screenshots.mjs
+.chrome-profile-*
 
 .DS_Store
 *.pem

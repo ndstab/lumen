@@ -19,7 +19,7 @@ import Database from "better-sqlite3";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const BASE = process.argv[2] ?? "http://localhost:3200";
+const BASE = process.argv[2] ?? process.env.BASE_URL ?? "http://localhost:3000";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const DB_PATH = path.join(here, "..", "data", "app.db");
 
@@ -31,6 +31,12 @@ const LEARNERS = [
   { email: "diya@lumen.school", diligence: 0.74, ability: 0.7, courses: ["light", "cell"] },
   { email: "kabir@lumen.school", diligence: 0.45, ability: 0.55, courses: ["light", "cell", "force"] },
   { email: "meera@lumen.school", diligence: 0.63, ability: 0.78, courses: ["cell", "force"] },
+  { email: "rohan@lumen.school", diligence: 0.81, ability: 0.62, courses: ["light", "cell"] },
+  { email: "ananya@lumen.school", diligence: 0.95, ability: 0.9, courses: ["cell", "force", "light"] },
+  { email: "vihaan@lumen.school", diligence: 0.38, ability: 0.48, courses: ["force", "light"] },
+  { email: "ishita@lumen.school", diligence: 0.7, ability: 0.82, courses: ["light", "cell", "force"] },
+  { email: "arjun@lumen.school", diligence: 0.55, ability: 0.66, courses: ["force", "cell"] },
+  { email: "sara@lumen.school", diligence: 0.87, ability: 0.74, courses: ["light", "force"] },
 ];
 
 const rand = (a, b) => a + Math.random() * (b - a);

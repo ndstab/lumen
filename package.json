@@ -10,7 +10,9 @@
     "lint": "next lint",
     "seed": "node scripts/seed.mjs",
     "seed:fresh": "node scripts/seed.mjs --fresh",
-    "media": "python3 scripts/make_videos.py"
+    "media": "python3 scripts/make_videos.py",
+    "simulate": "node scripts/simulate.mjs",
+    "screens": "node scripts/screenshots.mjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
