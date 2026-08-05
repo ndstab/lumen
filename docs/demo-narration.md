@@ -1,7 +1,16 @@
 # Narration script for docs/demo.mp4
 
-Total runtime **1:23**. Around 210 words, which is a comfortable 150 words per
-minute with room to breathe.
+Total runtime **1:23**.
+
+The continuous version below is **230 words**, which lands at 84 seconds when
+read briskly (about 165 words per minute) and 92 seconds at a relaxed pace. So
+it fits, but only just. Three ways to buy room, in order of preference:
+
+1. Cut the two lines marked as droppable in the notes at the bottom. That takes
+   it to 218 words, or 79 seconds brisk.
+2. Let the opening run over the first two shots. Nothing happens between 0:00
+   and 0:08 except a small scroll.
+3. Hold the last frame for three or four seconds in your editor.
 
 Every number quoted below is the number actually visible on screen at that
 moment. If you re-record the video with different data, the figures will change
