@@ -13,7 +13,8 @@
     "media": "python3 scripts/make_videos.py",
     "simulate": "node scripts/simulate.mjs",
     "screens": "node scripts/screenshots.mjs",
-    "deck": "node scripts/make_deck.mjs"
+    "deck": "node scripts/make_deck.mjs",
+    "demo": "node scripts/make_demo.mjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

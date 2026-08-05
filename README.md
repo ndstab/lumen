@@ -114,6 +114,17 @@ You can also create your own learner account from the sign-up page.
 
 ---
 
+## Demo
+
+A silent 80 second walkthrough is committed at
+[`docs/demo.mp4`](docs/demo.mp4). It is a real screen recording of the running
+application, captured by `scripts/make_demo.mjs` driving headless Chrome, and it
+covers the catalogue, a lesson, the video player including a seek and a speed
+change, the quiz, the event stream filtered to video events, and the analytics.
+
+For a narrated version, [`docs/demo-script.md`](docs/demo-script.md) has a beat
+sheet with timings and the exact things worth saying.
+
 ## Suggested demo route
 
 Open two browser windows side by side.
@@ -282,7 +293,10 @@ src/
     analytics.ts        the educator queries
 docs/
   design.md             the design specification
-  presentation.md       the presentation outline
+  demo-script.md        beat sheet for recording a narrated demo
+  demo.mp4              silent walkthrough of the running app
+  presentation.pptx     the presentation
+  screens/              screenshots used in the README and the deck
 ```
 
 ---
@@ -335,6 +349,8 @@ The full specification is in [docs/design.md](docs/design.md).
 | `npm run media` | Rebuild the lesson videos (needs Python with Pillow, and ffmpeg) |
 | `npm run simulate` | Generate demonstration activity (dev server must be running) |
 | `npm run screens` | Recapture the screenshots in `docs/screens` (macOS with Chrome) |
+| `npm run deck` | Rebuild `docs/presentation.pptx` with current figures |
+| `npm run demo` | Re-record `docs/demo.mp4` (dev server must be running) |
 
 ---
 
