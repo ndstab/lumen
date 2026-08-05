@@ -8,8 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node --experimental-strip-types scripts/seed.ts",
-    "media": "bash scripts/make-videos.sh"
+    "seed": "node scripts/seed.mjs",
+    "seed:fresh": "node scripts/seed.mjs --fresh",
+    "media": "python3 scripts/make_videos.py"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
