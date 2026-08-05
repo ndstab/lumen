@@ -1,10 +1,9 @@
 # Lumen
 
-An interactive science learning app for Classes 8 and 9, built around a
-complete clickstream: every page view, click, scroll, video action and quiz
-answer is captured, stored, and made available to educators as a live event
-stream, a CSV export in the standard seven column log format, and three
-analytics views.
+An interactive science learning app for Classes 8 and 9, built around a complete
+clickstream. Every page view, click, scroll, video action and quiz answer is
+captured and stored, then made available to educators as a live event stream, a
+CSV export in the standard seven column log format, and three analytics views.
 
 Three courses, thirteen lessons, seventy questions, and a lesson video for every
 lesson.
@@ -16,57 +15,57 @@ lesson.
 ## Contents
 
 - [What it does](#what-it-does)
-- [Running it](#running-it)
-- [Demonstration accounts](#demonstration-accounts)
-- [Suggested demo route](#suggested-demo-route)
+- [Quick start](#quick-start)
+- [Accounts](#accounts)
+- [Take the tour](#take-the-tour)
 - [The clickstream](#the-clickstream)
 - [Analytics](#analytics)
 - [Architecture](#architecture)
 - [Project layout](#project-layout)
 - [Design](#design)
 - [Scripts](#scripts)
-- [Known limits](#known-limits)
+- [Notes and limitations](#notes-and-limitations)
 
 ---
 
 ## What it does
 
-**For learners**
+### For learners
 
 - Sign up or sign in as a learner
 - Browse three courses and pick a lesson
-- Each lesson combines three kinds of interactive content: **text** with
-  hand-drawn figures, a **video** with a custom player, and a **quiz**
+- Every lesson combines three kinds of interactive content: **text** with hand
+  drawn figures, a **video** in a custom player, and a **quiz**
 - Quizzes offer three question types (single answer, select all that apply, and
   numeric entry), graded on the server, with an explanation shown whether the
   answer was right or wrong
-- Unlimited retakes; every attempt is stored separately
+- Unlimited retakes, and every attempt is stored separately
 - Progress is tracked per lesson and per course
 
-A lesson: text, a hand-drawn figure, the video player, and progress in the rail.
+A lesson page: the reading, a hand built figure, the video player, and progress
+in the rail.
 
 ![A lesson page](docs/screens/lesson.png)
 
-Quizzes grade on the server and explain either way.
+Quizzes are graded on the server and explain either way.
 
 ![A quiz question](docs/screens/quiz.png)
 
-**For educators**
+### For educators
 
 - A live **event stream**: every recorded action, newest first, filterable by
   learner, course, component, event name, date range and free text search
-- **CSV export** in the exact seven column layout of a Moodle standard log
-  report
-- Three **analytics** views built from the clickstream: video drop-off, quiz
-  item difficulty, and activity over time
+- **CSV export** in the exact seven column layout of a Moodle standard log report
+- Three **analytics** views built from the clickstream: video drop-off, quiz item
+  difficulty, and activity over time
 
 ![The event stream](docs/screens/event-stream.png)
 
 ---
 
-## Running it
+## Quick start
 
-Requirements: Node 20 or newer. Nothing else for the default path.
+Requirements: **Node 20 or newer**. Nothing else.
 
 ```bash
 npm install
@@ -74,31 +73,35 @@ npm run seed
 npm run dev
 ```
 
-Then open http://localhost:3000.
+Open http://localhost:3000 and sign in with one of the [accounts](#accounts)
+below.
 
 `npm run seed` creates `data/app.db`, applies the schema, loads the three
-courses and creates the demonstration accounts. It is safe to re-run: content is
-rebuilt, recorded events are kept. Use `npm run seed:fresh` to start completely
-over.
+courses and creates the demonstration accounts. It is safe to re-run: course
+content is rebuilt and recorded events are kept. Use `npm run seed:fresh` for a
+completely clean database.
 
-The lesson videos are committed to the repository, so nothing else is needed to
-get a working demo. To rebuild them after editing lesson content you need Python
-with Pillow, plus ffmpeg:
+The lesson videos are committed to the repository, so the app works immediately
+after cloning with no extra tooling.
 
-```bash
-npm run media
-```
+### Populating the analytics
 
-To fill the analytics with a body of demonstration activity, start the dev
-server and then run:
+A brand new database has no activity in it, so the charts start empty. To fill
+them with a body of realistic demonstration activity, leave the dev server
+running and in a second terminal run:
 
 ```bash
 npm run simulate
 ```
 
+This signs in as each seeded learner and works through lessons, videos and
+quizzes over the real HTTP endpoints, so everything it produces passes through
+the same tracking and grading code a real learner would. See
+[Notes and limitations](#notes-and-limitations) for the one thing it invents.
+
 ---
 
-## Demonstration accounts
+## Accounts
 
 The password for every seeded account is `lumen1234`.
 
@@ -107,47 +110,51 @@ The password for every seeded account is `lumen1234`.
 | `aarav@lumen.school` | learner |
 | `diya@lumen.school` | learner |
 | `kabir@lumen.school` | learner |
-| `meera@lumen.school` | learner |
-| `teacher@lumen.school` | educator |
+| `teacher@lumen.school` | **educator** |
 
-You can also create your own learner account from the sign-up page.
+There are ten seeded learners in total (`aarav`, `diya`, `kabir`, `meera`,
+`rohan`, `ananya`, `vihaan`, `ishita`, `arjun` and `sara`, all
+`@lumen.school`), each with a different work rate and ability so the analytics
+have a realistic spread. You can also create your own learner account from the
+sign-up page.
+
+Only `teacher@lumen.school` can reach the event stream and the analytics.
 
 ---
 
-## Demo
+## Take the tour
 
-A silent 80 second walkthrough is committed at
-[`docs/demo.mp4`](docs/demo.mp4). It is a real screen recording of the running
-application, captured by `scripts/make_demo.mjs` driving headless Chrome, and it
-covers the catalogue, a lesson, the video player including a seek and a speed
-change, the quiz, the event stream filtered to video events, and the analytics.
+The most interesting thing about this project is watching the clickstream fill
+in while you use the app. To see that, open two browser windows side by side.
 
-For a narrated version, [`docs/demo-script.md`](docs/demo-script.md) has a beat
-sheet with timings and the exact things worth saying.
+1. In the **first window**, sign in as `teacher@lumen.school` and open the event
+   stream. Leave it there. It refreshes itself.
+2. In a **second window** (use a private window so the sessions do not collide),
+   sign in as `aarav@lumen.school` and open a lesson.
+3. Press play. **Drag the scrubber backwards.** Change the playback speed. Then
+   take the quiz and get one wrong on purpose.
+4. Watch the first window. Seeks arrive with both endpoints, quiz answers arrive
+   with the attempt they belonged to.
 
-## Suggested demo route
+Three more things worth trying:
 
-Open two browser windows side by side.
+- **Click a plain paragraph.** An `Element clicked` row still appears, because
+  clicks are captured by one listener on the document rather than by handlers
+  added to individual elements.
+- **Press Export CSV** on the event stream and open the file. Seven columns,
+  matching the reference log format.
+- **Narrow the window to phone width.** No horizontal scroll, and no clickable
+  label wraps to two lines.
 
-1. **Left window**: sign in as `teacher@lumen.school` and open the event stream.
-   Leave it there. It refreshes itself every few seconds.
-2. **Right window**: sign in as `aarav@lumen.school` in a private window and
-   work through a lesson. Open a course, open a lesson, press play, drag the
-   scrubber backwards, change the speed, then take the quiz and get one wrong on
-   purpose.
-3. Watch the left window fill in as you go. Seeks arrive with both endpoints,
-   quiz answers arrive with the attempt they belonged to.
-4. Press **Export CSV** and open the file. The seven columns match the reference
-   log format.
-5. Open **Analytics** to see the same data as a drop-off curve, a difficulty
-   ranking and an activity histogram.
+If you would rather watch than run it, there is a silent 80 second walkthrough of
+the running application at [`docs/demo.mp4`](docs/demo.mp4).
 
 ---
 
 ## The clickstream
 
-Everything the brief asks to be tracked is tracked, and the vocabulary is kept
-small enough to analyse.
+Everything worth tracking is tracked, and the vocabulary is kept small enough to
+analyse.
 
 | Component | Events |
 | --- | --- |
@@ -161,28 +168,29 @@ small enough to analyse.
 
 Some details worth calling out:
 
-- **Clicks are captured globally.** The brief names clicks explicitly, so the
-  tracker listens on the document in the capture phase rather than relying on
-  handlers being added to each element. Untagged elements still produce a usable
-  identifier from their tag, id and visible text.
+- **Clicks are captured globally.** The tracker listens on the document in the
+  capture phase rather than relying on handlers being added to each element, so
+  untagged elements still produce a usable identifier from their tag, id and
+  visible text.
 - **Seeks carry both endpoints.** A seek records where the learner jumped from,
-  where they jumped to, the direction and the size of the jump. This is only
-  possible because the player is self hosted rather than an embed.
+  where they jumped to, the direction and the size of the jump. That is only
+  possible because the video player is self hosted rather than an embed.
 - **Identity is resolved on the server.** The browser reports what happened, not
   who did it. A tampered payload cannot forge another learner's activity, and
-  the event names the browser is allowed to send are checked against a closed
-  list.
+  the event names a browser is allowed to send are checked against a closed list.
 - **Events survive navigation.** The queue is batched and flushed with
-  `navigator.sendBeacon` on page hide, where a normal request would be
-  cancelled.
-- **Logging never breaks the lesson.** Every write is wrapped so that a failure
-  to record an event cannot interrupt what the learner was doing.
+  `navigator.sendBeacon` on page hide, where a normal request would be cancelled.
+- **Logging never breaks the lesson.** Every write is wrapped, so a failure to
+  record an event cannot interrupt what the learner was doing.
+- **Reports do not log their own refreshes.** The event stream reloads itself so
+  it can be watched live. Those ticks are throttled out, so the report does not
+  fill the log by observing itself. A real navigation or reload still records.
 
 ### The seven column projection
 
 Rows are shaped so a Moodle standard log report can be projected straight out of
 them. `src/lib/moodle.ts` holds that projection, so the on-screen table and the
-CSV can never drift apart.
+CSV export can never drift apart.
 
 | Moodle column | Source |
 | --- | --- |
@@ -194,16 +202,21 @@ CSV can never drift apart.
 | Origin | `origin` |
 | IP address | `ip` |
 
-The stored row carries more than these seven columns (user id, session id,
+The stored row carries more than these seven columns: user id, session id,
 course and lesson ids, path, user agent, and a JSON `meta` object holding the
-event-specific payload). The seven columns are the export shape, not the storage
-shape.
+event specific payload. For a seek, that payload looks like this:
+
+```json
+{ "from": 84.2, "to": 61.0, "direction": "backward", "jumpSeconds": 23.2 }
+```
+
+The seven columns are the export shape, not the storage shape.
 
 ---
 
 ## Analytics
 
-Three views, each of which answers a question a grade book cannot.
+Three views, each answering a question a grade book cannot.
 
 ![Video drop-off](docs/screens/analytics.png)
 
@@ -219,7 +232,7 @@ correct, hardest first. Every attempt counts separately, including retakes, so a
 question that stays red after repeated attempts is a teaching problem rather
 than a difficulty setting.
 
-**When the work happens.** Events per hour. Useful for seeing whether a class
+**When the work happens.** Events per hour, useful for seeing whether a class
 works during the school day or late at night.
 
 The charts are drawn by hand as SVG rather than pulled from a plotting library.
@@ -246,18 +259,18 @@ GET /api/events/export      <-   lib/moodle.ts            <-   events
 ```
 
 **Stack**: Next.js 15 (App Router) with React 19 and TypeScript, SQLite through
-`better-sqlite3`, and plain CSS with a custom property token layer. Passwords
-are hashed with bcrypt; sessions are opaque tokens in an httpOnly cookie, stored
+`better-sqlite3`, and plain CSS with a custom property token layer. Passwords are
+hashed with bcrypt, and sessions are opaque tokens in an httpOnly cookie, stored
 server side.
 
 **Why SQLite**: the whole application runs from a single file with no service to
-provision, which matters for a project whose deliverable is a repository and a
-video rather than a deployment. `better-sqlite3` is synchronous, which suits
-request handlers that do a handful of small reads.
+provision, so cloning the repository is enough to get a working system.
+`better-sqlite3` is synchronous, which suits request handlers doing a handful of
+small reads.
 
 **Why no chart or component library**: the visual design is specific enough that
 a library would have been fought rather than used, and the three charts and
-dozen figures are each simple in isolation.
+twelve figures are each simple in isolation.
 
 ---
 
@@ -281,7 +294,7 @@ src/
     Tracker.tsx         global clickstream capture
     VideoPlayer.tsx     custom player and its event surface
     Quiz.tsx            question rendering and immediate feedback
-    Figures.tsx         the hand-built lesson diagrams
+    Figures.tsx         the hand built lesson diagrams
     Charts.tsx          the three analytics charts
   lib/
     schema.sql          database schema
@@ -293,10 +306,9 @@ src/
     analytics.ts        the educator queries
 docs/
   design.md             the design specification
-  demo-script.md        beat sheet for recording a narrated demo
-  demo.mp4              silent walkthrough of the running app
-  presentation.pptx     the presentation
-  screens/              screenshots used in the README and the deck
+  demo.mp4              walkthrough of the running app
+  presentation.pptx     project presentation
+  screens/              screenshots used in this README
 ```
 
 ---
@@ -304,10 +316,10 @@ docs/
 ## Design
 
 The direction is **Riso Press**: a risograph printed science zine. Two flat spot
-colours (blue and orange) on cream stock, a heavy geometric display face,
-thick keylines, and hard offset shadows instead of blurs. It targets 13 to 15
-year olds, which is old enough that a cartoon mascot would read as
-condescending and young enough that a plain document would read as homework.
+colours (blue and orange) on cream stock, a heavy geometric display face, thick
+keylines, and hard offset shadows instead of blurs. It targets 13 to 15 year
+olds, which is old enough that a cartoon mascot would read as condescending and
+young enough that a plain document would read as homework.
 
 Rules the stylesheet enforces:
 
@@ -319,21 +331,22 @@ Rules the stylesheet enforces:
 5. Motion animates transform and opacity only, and collapses under
    `prefers-reduced-motion`.
 
-Two typefaces do all the work: **Bricolage Grotesque** for headings and
-**Work Sans** for everything read. **JetBrains Mono** appears only inside
-technical drawings, never as interface chrome.
+Two typefaces do all the work: **Bricolage Grotesque** for headings and **Work
+Sans** for everything read. **JetBrains Mono** appears only inside technical
+drawings, never as interface chrome.
 
-The lesson figures are drawn to correct geometry rather than sketched. The
-convex lens diagram traces a real parallel ray through the far focus and a real
-central ray, and they meet where the image actually forms. The cell size chart
-is genuinely logarithmic.
+The lesson figures are drawn to correct geometry rather than sketched. The convex
+lens diagram traces a real parallel ray through the far focus and a real central
+ray, and they meet where the image actually forms. The cell size chart is
+genuinely logarithmic.
 
 It holds up on a phone: no horizontal scroll at 375px, and no clickable label
 ever wraps to two lines.
 
 <img src="docs/screens/lesson-mobile.png" alt="A lesson page on a phone" width="320">
 
-The full specification is in [docs/design.md](docs/design.md).
+The full specification, including the decisions and the things deliberately cut,
+is in [docs/design.md](docs/design.md).
 
 ---
 
@@ -344,42 +357,47 @@ The full specification is in [docs/design.md](docs/design.md).
 | `npm run dev` | Start the development server |
 | `npm run build` | Production build |
 | `npm run start` | Serve the production build |
-| `npm run seed` | Create or refresh the database and content |
+| `npm run seed` | Create or refresh the database and course content |
 | `npm run seed:fresh` | Delete the database and start over |
-| `npm run media` | Rebuild the lesson videos (needs Python with Pillow, and ffmpeg) |
 | `npm run simulate` | Generate demonstration activity (dev server must be running) |
-| `npm run screens` | Recapture the screenshots in `docs/screens` (macOS with Chrome) |
-| `npm run deck` | Rebuild `docs/presentation.pptx` with current figures |
-| `npm run demo` | Re-record `docs/demo.mp4` (dev server must be running) |
+| `npm run media` | Rebuild the lesson videos (needs Python with Pillow, and ffmpeg) |
+
+If you run `npm run seed:fresh` while the dev server is running, restart the
+server afterwards. It holds an open handle to the database file that was
+replaced.
 
 ---
 
-## Known limits
+## Notes and limitations
 
 Stated plainly, because a project that claims to be finished usually is not.
 
+- **There is no automated test suite.** The application was verified by driving
+  the running system: every screen, the full video event surface, all three
+  question types, the export, and the charts. Tests for the event writer and the
+  export projection are the first thing worth adding.
 - **The lesson videos are generated slide films, not filmed explanations.** They
-  are built from the lesson's own headings and key points so that each film says
-  what its lesson says, and they are real MP4s with real durations so the
-  player and the drop-off analytics work on genuine media. They are not a
+  are built from each lesson's own headings and key points, so a lesson's film
+  always says what the lesson says, and they are real MP4s with real durations so
+  the player and the drop-off analytics work on genuine media. They are not a
   substitute for a teacher on camera.
-- **`npm run simulate` fabricates timestamps.** It drives the real endpoints, so
-  every event passes through the same tracker, grading and logging code a real
-  learner would trigger. The one thing it invents is *when*: a final pass
-  spreads the events it caused across the previous few days so the activity
-  chart has a shape. Real usage is unaffected.
-- **SQLite and `better-sqlite3` mean a single node.** Correct for this project,
-  wrong for a real deployment with concurrent writers.
+- **`npm run simulate` invents timestamps.** It drives the real endpoints, so
+  every event passes through the same tracking, grading and logging code a real
+  learner would trigger. The one thing it invents is *when*: a final pass spreads
+  the events it caused across the previous few days so the activity chart has a
+  shape rather than a single tall bar. Real usage is unaffected.
+- **SQLite with a synchronous driver means a single node.** Correct for a
+  project that runs from one folder, wrong for a deployment with concurrent
+  writers.
 - **No email verification and no password reset.** Out of scope.
-- **Light theme only.** The design commits to printed cream stock; a dark
+- **Light theme only.** The design commits to printed cream stock, so a dark
   variant would be a different design rather than a toggle.
 - **Two transitive build dependencies of Next 15 (postcss and sharp) carry
   published advisories** whose fix requires a Next major upgrade. They affect
-  build tooling and image optimisation rather than the running app, and the
-  upgrade was judged too risky to take late in the build. `npm audit` reports
-  them.
+  build tooling and image optimisation rather than the running application.
+  `npm audit` reports them.
 
 ---
 
-Built for a learning analytics assignment. The accounts, the learners and the
-activity in the analytics are seeded demonstration data.
+The seeded accounts, learners and activity are demonstration data, created so
+the analytics have something to show on a fresh install.
