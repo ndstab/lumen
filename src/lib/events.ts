@@ -147,6 +147,38 @@ export async function recordEvent(input: EventInput): Promise<void> {
 }
 
 /**
+ * Record an event at most once per window, per user.
+ *
+ * Needed for pages that re-render on a timer rather than on a user action. The
+ * educator event stream refreshes itself so it can be watched live, and without
+ * this it would log a page view on every tick, quietly filling the clickstream
+ * with the report observing itself. A genuine navigation or a manual reload
+ * still records, because those are real page views.
+ */
+export async function recordEventThrottled(
+  input: EventInput,
+  windowSeconds: number
+): Promise<void> {
+  try {
+    const actor = await getActor();
+    if (actor) {
+      const recent = getDb()
+        .prepare(
+          `SELECT 1 FROM events
+            WHERE user_id = ? AND event_name = ?
+              AND occurred_at > datetime('now', ?)
+            LIMIT 1`
+        )
+        .get(actor.user.id, input.eventName, `-${Math.max(1, windowSeconds)} seconds`);
+      if (recent) return;
+    }
+    await recordEvent(input);
+  } catch (err) {
+    console.error("[events] failed to record", input.eventName, err);
+  }
+}
+
+/**
  * Record an event for a user we already know about, used during login and
  * signup where the cookie is not readable yet on the same request.
  */

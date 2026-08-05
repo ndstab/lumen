@@ -7,7 +7,7 @@ import {
   activityByHour,
   headlines,
 } from "@/lib/analytics";
-import { recordEvent } from "@/lib/events";
+import { recordEventThrottled } from "@/lib/events";
 import { DropOffChart, DifficultyChart, ActivityChart } from "@/components/Charts";
 
 export const metadata = { title: "Analytics" };
@@ -23,14 +23,17 @@ export default async function AnalyticsPage() {
   const activity = activityByHour();
   const stats = headlines();
 
-  await recordEvent({
-    component: "Report",
-    eventName: "Analytics dashboard viewed",
-    action: "viewed the analytics dashboard",
-    target: null,
-    context: "Report: analytics",
-    description: `The user with id '${user.id}' viewed the analytics dashboard.`,
-  });
+  await recordEventThrottled(
+    {
+      component: "Report",
+      eventName: "Analytics dashboard viewed",
+      action: "viewed the analytics dashboard",
+      target: null,
+      context: "Report: analytics",
+      description: `The user with id '${user.id}' viewed the analytics dashboard.`,
+    },
+    60
+  );
 
   const finished = dropOff.points.find((p) => p.milestone === 100)?.percent ?? 0;
   const hardest = items[0];

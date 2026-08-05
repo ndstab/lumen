@@ -11,7 +11,7 @@ import {
   componentMix,
   type EventFilters,
 } from "@/lib/analytics";
-import { recordEvent } from "@/lib/events";
+import { recordEventThrottled } from "@/lib/events";
 import { moodleTime, MOODLE_COLUMNS } from "@/lib/moodle";
 import LiveRefresh from "@/components/LiveRefresh";
 
@@ -61,15 +61,21 @@ export default async function EducatorPage({
   const names = distinctEventNames();
   const components = distinctComponents();
 
-  await recordEvent({
-    component: "Report",
-    eventName: "Event stream viewed",
-    action: "viewed the event stream report",
-    target: null,
-    context: "Report: event stream",
-    description: `The user with id '${user.id}' viewed the event stream report.`,
-    meta: { page, matched: total },
-  });
+  // This page refreshes itself so it can be watched live. Throttling stops each
+  // tick from logging a page view and filling the log with the report watching
+  // itself. A real navigation or reload outside the window still records.
+  await recordEventThrottled(
+    {
+      component: "Report",
+      eventName: "Event stream viewed",
+      action: "viewed the event stream report",
+      target: null,
+      context: "Report: event stream",
+      description: `The user with id '${user.id}' viewed the event stream report.`,
+      meta: { page, matched: total },
+    },
+    120
+  );
 
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const filtered =
