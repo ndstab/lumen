@@ -35,8 +35,10 @@ const SHOTS = [
   { name: "figure", url: "/courses/light/refraction", as: "aarav@lumen.school", w: 1280, h: 1000, scrollTo: 1400 },
   { name: "quiz", url: "/courses/cell/discovering-the-cell", as: "aarav@lumen.school", w: 1280, h: 900, quiz: true },
   { name: "event-stream", url: "/educator", as: "teacher@lumen.school", w: 1440, h: 1100 },
+  { name: "event-video", url: "/educator?component=Video", as: "teacher@lumen.school", w: 1440, h: 1050, scrollTo: 620 },
   { name: "analytics", url: "/educator/analytics", as: "teacher@lumen.school", w: 1440, h: 1000 },
   { name: "difficulty", url: "/educator/analytics", as: "teacher@lumen.school", w: 1440, h: 1000, scrollTo: 1150 },
+  { name: "activity", url: "/educator/analytics", as: "teacher@lumen.school", w: 1440, h: 950, scrollTo: 2450 },
   { name: "lesson-mobile", url: "/courses/light/convex-lens", as: "aarav@lumen.school", w: 390, h: 844 },
 ];
 
