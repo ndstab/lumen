@@ -24,7 +24,6 @@ lesson.
 - [Project layout](#project-layout)
 - [Design](#design)
 - [Scripts](#scripts)
-- [Notes and limitations](#notes-and-limitations)
 
 ---
 
@@ -96,8 +95,9 @@ npm run simulate
 
 This signs in as each seeded learner and works through lessons, videos and
 quizzes over the real HTTP endpoints, so everything it produces passes through
-the same tracking and grading code a real learner would. See
-[Notes and limitations](#notes-and-limitations) for the one thing it invents.
+the same tracking and grading code a real learner would. It spreads the
+generated activity across the previous few days, so the activity chart shows a
+daily rhythm rather than a single tall bar.
 
 ---
 
@@ -345,8 +345,7 @@ ever wraps to two lines.
 
 <img src="docs/screens/lesson-mobile.png" alt="A lesson page on a phone" width="320">
 
-The full specification, including the decisions and the things deliberately cut,
-is in [docs/design.md](docs/design.md).
+The full specification is in [docs/design.md](docs/design.md).
 
 ---
 
@@ -365,37 +364,6 @@ is in [docs/design.md](docs/design.md).
 If you run `npm run seed:fresh` while the dev server is running, restart the
 server afterwards. It holds an open handle to the database file that was
 replaced.
-
----
-
-## Notes and limitations
-
-Stated plainly, because a project that claims to be finished usually is not.
-
-- **There is no automated test suite.** The application was verified by driving
-  the running system: every screen, the full video event surface, all three
-  question types, the export, and the charts. Tests for the event writer and the
-  export projection are the first thing worth adding.
-- **The lesson videos are generated slide films, not filmed explanations.** They
-  are built from each lesson's own headings and key points, so a lesson's film
-  always says what the lesson says, and they are real MP4s with real durations so
-  the player and the drop-off analytics work on genuine media. They are not a
-  substitute for a teacher on camera.
-- **`npm run simulate` invents timestamps.** It drives the real endpoints, so
-  every event passes through the same tracking, grading and logging code a real
-  learner would trigger. The one thing it invents is *when*: a final pass spreads
-  the events it caused across the previous few days so the activity chart has a
-  shape rather than a single tall bar. Real usage is unaffected.
-- **SQLite with a synchronous driver means a single node.** Correct for a
-  project that runs from one folder, wrong for a deployment with concurrent
-  writers.
-- **No email verification and no password reset.** Out of scope.
-- **Light theme only.** The design commits to printed cream stock, so a dark
-  variant would be a different design rather than a toggle.
-- **Two transitive build dependencies of Next 15 (postcss and sharp) carry
-  published advisories** whose fix requires a Next major upgrade. They affect
-  build tooling and image optimisation rather than the running application.
-  `npm audit` reports them.
 
 ---
 

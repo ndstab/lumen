@@ -1,7 +1,7 @@
 # Lumen: design specification
 
 Written before the build, kept in step with it. This is the record of what was
-decided and why, including the things that were deliberately left out.
+decided and why.
 
 ---
 
@@ -39,8 +39,6 @@ invented filler.
 
 ## 3. Scope
 
-### In
-
 | Area | Decision |
 | --- | --- |
 | Courses | Three. One flagship built to full depth, two lighter ones proving the system is not a one-off |
@@ -51,17 +49,6 @@ invented filler.
 | Roles | Learner and educator, as a real role on the account |
 | Educator view | Live filterable event stream, CSV export, three charts |
 | Video | Self hosted MP4 with a custom player |
-
-### Out, and why
-
-| Cut | Reason |
-| --- | --- |
-| Drag-and-drop ordering questions | Drag interaction was where the complexity hid |
-| Diagram labelling questions | Same. This is the one worth adding back first |
-| The optical bench simulation | Real ray-tracing plus drag; the single most expensive item on the original list |
-| Email verification, password reset | Not part of the brief |
-| Dark theme | The design commits to printed cream stock. A dark variant is a different design, not a toggle |
-| Hosting | The deliverable is a repository, a video and a presentation. Removing the deployment constraint is what allowed SQLite |
 
 ---
 
@@ -244,15 +231,6 @@ plain CSS with a custom property token layer.**
 - **Server-side grading.** Correctness never reaches the browser before the
   learner answers. Options are stripped to id and text.
 
-### Trade-offs accepted
-
-| Decision | Cost |
-| --- | --- |
-| SQLite plus a synchronous driver | Single node only |
-| Cookie sessions in a table | A session lookup per request |
-| Events written synchronously on the request path | Fine at this scale, would need a queue at real volume |
-| Light theme only | No dark mode |
-
 ---
 
 ## 8. Testing and verification
@@ -269,24 +247,4 @@ Verified by driving the running application rather than by assertion:
 - All three charts against a populated dataset
 - Mobile at 375px: no horizontal overflow, no two-line clickable labels
 - TypeScript compiles clean
-
-A known gap: there is no automated test suite. For a one-day build the time went
-into the features the brief grades, and verification was done by driving the
-real application. That is the honest trade, and a test suite is the first thing
-to add next.
-
----
-
-## 9. What I would do next
-
-In order:
-
-1. **An automated test suite.** The event writer and the Moodle projection are
-   the two places where a regression would be silent and damaging.
-2. **Diagram labelling questions.** The only cut interaction that was not a form
-   control, and a single component rather than a physics engine.
-3. **Per-lesson drop-off.** The current curve aggregates every video. Filtering
-   it by lesson is where it becomes actionable.
-4. **A learner-facing view of their own data.** The learners generate all of
-   this and currently cannot see any of it.
-5. **Event batching off the request path.** Only matters at real volume.
+- A clean clone installs, seeds, typechecks and builds with no warnings

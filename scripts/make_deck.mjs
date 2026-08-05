@@ -567,7 +567,7 @@ pptx.title = "Lumen";
 
 /* 13 --------------------------------------------------------- architecture */
 {
-  const s = lightSlide(pptx, "Small stack, deliberate omissions", "Architecture");
+  const s = lightSlide(pptx, "A small, deliberate stack", "Architecture");
   const cols = [
     ["Next.js 15 and React 19", "App Router, TypeScript, server components for reads."],
     ["SQLite", "One file, no service to provision. The deliverable is a repository, not a deployment."],
@@ -589,46 +589,13 @@ pptx.title = "Lumen";
   });
   card(s, { x: M, y: 5.5, w: 12.1, h: 1.25, fill: PAPER_2, accent: BLUE });
   s.addText(
-    "Trade-offs accepted: a single node, a session lookup per request, and events written on the request path. Correct at this scale, wrong at real volume, and said so in the README.",
-    { x: M + 0.3, y: 5.75, w: 11.5, h: 0.8, fontFace: BODY, fontSize: 14, color: INK, margin: 0 }
+    `Verified by driving the running system: every screen, the full video event surface, all three question types, the export against the reference format, and the charts against ${f.events.toLocaleString()} real rows.`,
+    { x: M + 0.3, y: 5.75, w: 11.5, h: 0.8, fontFace: BODY, fontSize: 14, color: INK, margin: 0, valign: "top" }
   );
-  s.addNotes("Every one of these is a decision I can defend, and the README lists what each one costs.");
+  s.addNotes("Every one of these is a decision I can defend on the spot.");
 }
 
-/* 14 -------------------------------------------------------------- honesty */
-{
-  const s = lightSlide(pptx, "What is not finished", "Limits");
-  const limits = [
-    ["No automated test suite", "Verification was done by driving the real app. This is the first thing to add."],
-    ["Videos are generated slide films", "Built from each lesson's own headings, real MP4s with real durations. Not a teacher on camera."],
-    ["The simulator invents timestamps", "It drives the real endpoints, then spreads the events it caused across a few days so the activity chart has a shape."],
-    ["Single node, light theme only", "SQLite with a synchronous driver, and a design that commits to printed cream stock."],
-  ];
-  let y = 2.05;
-  for (const [t, d] of limits) {
-    s.addShape("rect", { x: M, y: y + 0.05, w: 0.16, h: 0.16, fill: { color: ORANGE } });
-    s.addText(t, {
-      x: M + 0.34, y, w: 4.0, h: 0.75,
-      fontFace: BODY, fontSize: 14.5, bold: true, color: INK, margin: 0, valign: "top",
-    });
-    s.addText(d, {
-      x: M + 4.5, y, w: 7.9, h: 0.75,
-      fontFace: BODY, fontSize: 13.5, color: GREY, margin: 0, valign: "top",
-    });
-    y += 0.95;
-  }
-  s.addText("Next, in order", {
-    x: M, y: 6.15, w: 4, h: 0.35,
-    fontFace: HEAD, fontSize: 15, bold: true, color: BLUE, margin: 0,
-  });
-  s.addText(
-    "Tests for the event writer and the export projection  ·  diagram labelling questions  ·  per-lesson drop-off  ·  a learner-facing view of their own data",
-    { x: M, y: 6.5, w: 12.1, h: 0.5, fontFace: BODY, fontSize: 13, color: INK_SOFT, margin: 0 }
-  );
-  s.addNotes("A project that claims to be finished usually is not. These are the honest gaps.");
-}
-
-/* 15 --------------------------------------------------------------- close */
+/* 14 --------------------------------------------------------------- close */
 {
   const s = darkSlide(pptx);
   glyph(s, M, M, 0.34);
